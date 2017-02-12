@@ -14,8 +14,7 @@ namespace test_carousels.iOS.Views
 	{
 		#region Fields
 
-		//private readonly MainViewModel _viewModel;
-		//private UILabel _test;
+		protected UIView _statusBarView;
 
 		#endregion Fields
 
@@ -41,7 +40,7 @@ namespace test_carousels.iOS.Views
 			//}
 		}
 
-		protected UITableView _tableView 
+		protected MovieCategorysTableViewController _tableView 
 		{ 
 			get; 
 			set; 
@@ -79,37 +78,37 @@ namespace test_carousels.iOS.Views
 
 		private void AddControls()
 		{
-			//_test = new UILabel()
-			//{
-			//	TranslatesAutoresizingMaskIntoConstraints = false,
-			//	TextColor = UIColor.White,
-			//};
-			//View.Add(_test);
-
-			_tableView = new UITableView
+			if (_statusBarView == null)
 			{
-				TranslatesAutoresizingMaskIntoConstraints = false,
-				BackgroundColor = UIColor.Clear,
-				ShowsHorizontalScrollIndicator = false,
-				ShowsVerticalScrollIndicator = false,
-				SeparatorStyle = UITableViewCellSeparatorStyle.None,
-			};
+				_statusBarView = new UIView ()
+				{
+					TranslatesAutoresizingMaskIntoConstraints = false,
+					BackgroundColor = UIColor.White,
+				};
+			}
+			View.Add (_statusBarView);
 
-			_tableView.RegisterClassForCellReuse (typeof (MovieCategoryViewCell), MovieCategoryViewCell.CellIdentifier);
+			if (_tableView == null)
+			{
+				_tableView = new MovieCategorysTableViewController();
+			}
 
-			_tableView.Source = new MoviesCategorysViewSource (ViewModel, _tableView, 50f);
-
-			View.Add(_tableView);
+			View.Add(_tableView.TableView);
 		}
 
 		private void AddConstraints()
 		{
 			View.AddConstraints (new []
 			{
-				_tableView.AtTopOf (View, 0f),
-				_tableView.AtLeftOf (View, 0f),
-				_tableView.AtRightOf (View, 0f),
-				_tableView.AtBottomOf(View, 0f),
+				_statusBarView.WithSameTop(View),
+				_statusBarView.WithSameLeft(View),
+				_statusBarView.WithSameWidth(View),
+				_statusBarView.Height().EqualTo(UIApplication.SharedApplication.StatusBarFrame.Height),
+
+				_tableView.TableView.Below (_statusBarView, 0f),
+				_tableView.TableView.AtLeftOf (View, 0f),
+				_tableView.TableView.AtRightOf (View, 0f),
+				_tableView.TableView.AtBottomOf(View, 0f),
 				//_test.Width().EqualTo(Constants.WidthLessLeftAndRightMargins),
 			});
 		}
@@ -123,115 +122,5 @@ namespace test_carousels.iOS.Views
 		}
 
 		#endregion Methods
-	}
-
-	class MoviesCategorysViewSource : MvxTableViewSource
-	{
-		private readonly MainViewModel _viewModel;
-
-		public event EventHandler OnDecelerationEnded;
-		public event EventHandler OnDecelerationStarted;
-		public event EventHandler OnDidZoom;
-		public event EventHandler OnDraggingStarted;
-		public event EventHandler OnScrollAnimationEnded;
-		public event EventHandler OnScrolled;
-		public event EventHandler OnScrolledToTop;
-		private nfloat _rowHeight;
-
-		public MoviesCategorysViewSource (MainViewModel viewModel, UITableView tableView, nfloat rowHeight) : base (tableView)
-		{
-			_viewModel = viewModel;
-			_rowHeight = rowHeight;
-		}
-
-		public override nint RowsInSection (UITableView tableview, nint section)
-		{
-			return _viewModel.MovieCategorys != null ? _viewModel.MovieCategorys.Count : 0;
-		}
-
-		protected override UITableViewCell GetOrCreateCellFor (UITableView tableView, NSIndexPath indexPath, object item)
-		{
-			var cell =  (MovieCategoryViewCell)tableView.DequeueReusableCell (MovieCategoryViewCell.CellIdentifier, indexPath);
-
-			if (cell != null) {
-				if (cell.DataContext == null)
-				{
-					var movieCategory = (MovieCategory)item;
-
-					if (movieCategory == null)
-					{
-						movieCategory = _viewModel.MovieCategorys[indexPath.Row];
-					}
-
-					cell.DataContext = movieCategory;
-
-					cell.SetupCell ();
-				}
-			}
-
-			return cell;
-		}
-
-		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
-		{
-			return _rowHeight;
-		}
-
-		public override void DecelerationEnded (UIScrollView scrollView)
-		{
-			if (OnDecelerationEnded != null)
-			{
-				OnDecelerationEnded (scrollView, null);
-			}
-		}
-
-		public override void DecelerationStarted (UIScrollView scrollView)
-		{
-			if (OnDecelerationStarted != null)
-			{
-				OnDecelerationStarted (scrollView, null);
-			}
-		}
-
-		public override void DidZoom (UIScrollView scrollView)
-		{
-			if (OnDidZoom != null)
-			{
-				OnDidZoom (scrollView, null);
-			}
-		}
-
-		public override void DraggingStarted (UIScrollView scrollView)
-		{
-			if (OnDraggingStarted != null)
-			{
-				OnDraggingStarted (scrollView, null);
-			}
-		}
-
-		public override void ScrollAnimationEnded (UIScrollView scrollView)
-		{
-			if (OnScrollAnimationEnded != null)
-			{
-				OnScrollAnimationEnded (scrollView, null);
-			}
-		}
-
-		public override void Scrolled (UIScrollView scrollView)
-		{
-			if (OnScrolled != null)
-			{
-				//MvvmCross.Platform.Mvx.Trace(MvvmCross.Platform.Platform.MvxTraceLevel.Diagnostic, "Scrolled");
-				OnScrolled (scrollView, null);
-			}
-		}
-
-		public override void ScrolledToTop (UIScrollView scrollView)
-		{
-			if (OnScrolledToTop != null)
-			{
-				OnScrolledToTop (scrollView, null);
-			}
-		}
 	}
 }

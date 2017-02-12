@@ -17,7 +17,11 @@ namespace test_carousels.iOS
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
+			UIApplication.SharedApplication.SetStatusBarStyle (UIStatusBarStyle.LightContent, false);
+
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
+
+			UIApplication.SharedApplication.SetStatusBarStyle (UIStatusBarStyle.LightContent, false);
 
 			var setup = new Setup (this, Window);
 			setup.Initialize ();
