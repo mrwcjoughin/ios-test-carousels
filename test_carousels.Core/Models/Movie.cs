@@ -2,11 +2,11 @@
 
 namespace test_carousels.Core.Models
 {
-	public class MovieCategory
+	public class Movie
 	{
 		#region Constructors
 
-		public MovieCategory ()
+		public Movie ()
 		{
 		}
 
@@ -20,7 +20,7 @@ namespace test_carousels.Core.Models
 			set;
 		}
 
-		public MoviesViewModel Movies
+		public string ImageUrl
 		{
 			get;
 			set;

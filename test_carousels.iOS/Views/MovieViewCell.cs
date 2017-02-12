@@ -7,34 +7,46 @@ using UIKit;
 
 namespace test_carousels.iOS
 {
-	public class MovieCategoryViewCell : MvxTableViewCell
+	public class MovieViewCell : MvxCollectionViewCell // UICollectionViewCell
 	{
 		#region Fields
 
-		public const string CellIdentifier = "MovieCategoryViewCell";
+		public const string CellIdentifier = "MovieViewCell";
+
+		private Movie _movie;
 
 		private UILabel _nameLabel;
-		private MoviesCollectionView _moviesCollectionView;
 
 		#endregion Fields
 
 		#region Properties
 
-		public MovieCategory ViewModel
-		{
-			get
-			{
-				return (MovieCategory)this.DataContext;
-			}
-		}
+		//public Movie ViewModel
+		//{
+		//	get
+		//	{
+		//		return (Movie)this.DataContext;
+		//	}
+		//}
+
+		//public Movie ViewModel
+		//{
+		//	get
+		//	{
+		//		return (Movie)this.DataContext;
+		//	}
+		//}
 
 		#endregion Properties
 
 		#region Constructors
 
-		public MovieCategoryViewCell (IntPtr handle) 
+		public MovieViewCell(IntPtr handle) 
 			: base(handle)
 		{
+			BackgroundColor = UIColor.Blue;
+			AddControls();
+			AddConstraints();
 		}
 
 		#endregion Constructors
@@ -43,7 +55,7 @@ namespace test_carousels.iOS
 
 		private void AddControls()
 		{
-			BackgroundColor = UIColor.Clear;
+			BackgroundColor = UIColor.Gray;
 
 			if (_nameLabel == null)
 			{
@@ -51,17 +63,13 @@ namespace test_carousels.iOS
 				{
 					TranslatesAutoresizingMaskIntoConstraints = false,
 					BackgroundColor = UIColor.Clear,
-					Font = UIFont.FromName (Constants.MainFont, 25f),
+					Font = UIFont.FromName (Constants.MainFont, 15f),
 					Text = "Test",
 					TextColor = UIColor.White,
+					Lines = 0,
+					LineBreakMode = UILineBreakMode.WordWrap,
 				};
 				ContentView.Add(_nameLabel);
-			}
-
-			if (_moviesCollectionView == null)
-			{
-				_moviesCollectionView = new MoviesCollectionView(new CoreGraphics.CGRect(0f, 0f, Constants.WidthLessLeftMargins, 200f), new UICollectionViewFlowLayout(), ViewModel.Movies);
-				ContentView.Add(_moviesCollectionView);
 			}
 		}
 
@@ -71,16 +79,12 @@ namespace test_carousels.iOS
 
 			ContentView.AddConstraints (new []
 			{
-				_nameLabel.AtTopOf (ContentView, Constants.VerticalMargin),
+				//_nameLabel.AtTopOf (ContentView, Constants.VerticalMargin),
 				_nameLabel.AtLeftOf (ContentView, Constants.HorizontalMargin),
-				_nameLabel.Width().EqualTo (Constants.WidthLessLeftMargins),
+				//_nameLabel.Width().EqualTo (Constants.WidthLessLeftMargins),
+				_nameLabel.WithSameWidth(ContentView),
 				_nameLabel.Height().EqualTo (30f),
-				//_nameLabel.AtBottomOf (ContentView, Constants.VerticalMargin),
-
-				_moviesCollectionView.Below (_nameLabel, Constants.VerticalMargin),
-				_moviesCollectionView.AtLeftOf (ContentView, Constants.HorizontalMargin),
-				_moviesCollectionView.Width().EqualTo (Constants.WidthLessLeftMargins),
-				_moviesCollectionView.Height().EqualTo (200f),
+				_nameLabel.AtBottomOf (ContentView, Constants.VerticalMargin),
 
 				//_clicksPointsSeparatorView.AtBottomOf (ContentView, 0f),
 				//_clicksPointsSeparatorView.WithSameWidth (ContentView),
@@ -90,17 +94,17 @@ namespace test_carousels.iOS
 
 		//private void AddBinding()
 		//{
-		//	var set = this.CreateBindingSet<MovieCategoryViewCell, MovieCategory> ();
+		//	var set = this.CreateBindingSet<MovieViewCell, Movie> ();
 		//	set.Bind (_nameLabel).To (vm => vm.Name);
 		//	//set.Bind (TextField).To (vm => vm.Hello);
 		//	set.Apply ();
 		//}
 
-		public void SetupCell ()
+		public void SetupCell (Movie movie)
 		{
-			AddControls();
-			AddConstraints();
-			_nameLabel.Text = ViewModel.Name;
+			_movie = movie;
+			//AddBinding();
+			_nameLabel.Text = _movie.Name;
 		}
 
 		#endregion Methods

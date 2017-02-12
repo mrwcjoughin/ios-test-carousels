@@ -136,6 +136,8 @@
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Views\MovieCategoryViewCell.cs" />
     <Compile Include="Views\MovieCategorysTableViewController.cs" />
+    <Compile Include="Views\MoviesCollectionView.cs" />
+    <Compile Include="Views\MovieViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />

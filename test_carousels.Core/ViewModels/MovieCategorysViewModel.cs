@@ -17,9 +17,9 @@ namespace test_carousels.Core.ViewModels
 
 		public MovieCategorysViewModel()
 		{
-			_movieCategorys.Add(new MovieCategory() { Name = "Channels" });
-			_movieCategorys.Add(new MovieCategory() { Name = "Continue Watching" });
-			_movieCategorys.Add(new MovieCategory() { Name = "Highlights" });
+			_movieCategorys.Add(new MovieCategory() { Name = "Channels", Movies = new MoviesViewModel() });
+			_movieCategorys.Add(new MovieCategory() { Name = "Continue Watching", Movies = new MoviesViewModel() });
+			_movieCategorys.Add(new MovieCategory() { Name = "Highlights", Movies = new MoviesViewModel() });
 		}
 
 		#endregion Constructors

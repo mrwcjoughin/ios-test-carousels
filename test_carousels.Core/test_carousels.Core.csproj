@@ -51,6 +51,8 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Models\MovieCategory.cs" />
     <Compile Include="ViewModels\MovieCategorysViewModel.cs" />
+    <Compile Include="ViewModels\MoviesViewModel.cs" />
+    <Compile Include="Models\Movie.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
