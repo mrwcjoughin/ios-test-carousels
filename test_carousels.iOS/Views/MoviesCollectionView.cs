@@ -12,9 +12,10 @@ namespace test_carousels.iOS
 {
 	public class MoviesCollectionView : UICollectionView
 	{
-		private MoviesViewModel _viewModel;
+		private MovieCategory _viewModel;
+		System.Threading.Timer _timer = null;
 
-		public MoviesViewModel ViewModel
+		public MovieCategory ViewModel
 		{
 			get
 			{
@@ -26,17 +27,19 @@ namespace test_carousels.iOS
 			}
 		}
 
-		public MoviesCollectionView (CGRect frame, UICollectionViewLayout layout, MoviesViewModel viewModel)
+		public MoviesCollectionView (CGRect frame, UICollectionViewLayout layout, MovieCategory viewModel)
 			: base(frame, layout)
 		{
 			this.ViewModel = viewModel;
 
 			//this. = new UITableView();
 			TranslatesAutoresizingMaskIntoConstraints = false;
-			BackgroundColor = UIColor.Green;
-			//ShowsHorizontalScrollIndicator = false;
-			//ShowsVerticalScrollIndicator = false;
+			BackgroundColor = UIColor.Clear;
+
+			ShowsHorizontalScrollIndicator = true;
+			ShowsVerticalScrollIndicator = false;
 			//this.TableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
+			UserInteractionEnabled = true;
 
 			this.RegisterClassForCell (typeof (MovieViewCell), MovieViewCell.CellIdentifier);
 
@@ -44,29 +47,20 @@ namespace test_carousels.iOS
 
 			this.Source = source;
 
-			this.ReloadData();
+			_timer = new System.Threading.Timer((obj) =>
+			{
+				//_timer.Dispose();
+
+				InvokeOnMainThread ( () => {
+					this.ReloadData();
+				});
+			}, null, 150, 500);
 		}
-
-		//protected int NumberOfSectionsInCollectionView(UICollectionView collectionView)
-		//{
-		//	return 1;
-		//}
-
-		//protected int CollectionView(UICollectionView collectionView, int section) //NumberOfItemsInSection
-		//{
-		//	return _viewModel.Movies.Count;
-		//}
-
-		//protected UICollectionViewCell CollectionView(UICollectionView collectionView, NSIndexPath indexPath)
-		//{
-		//	var cell = collectionView.DequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath);
-		//	return cell
-		//}
 	}
 
 	class MoviesViewSource : MvxCollectionViewSource
 	{
-		private readonly MoviesViewModel _viewModel;
+		private readonly MovieCategory _viewModel;
 
 		public event EventHandler OnDecelerationEnded;
 		public event EventHandler OnDecelerationStarted;
@@ -77,7 +71,7 @@ namespace test_carousels.iOS
 		public event EventHandler OnScrolledToTop;
 		//private nfloat _rowHeight;
 
-		public MoviesViewSource (MoviesViewModel viewModel, UICollectionView collectionView, nfloat rowHeight) 
+		public MoviesViewSource (MovieCategory viewModel, UICollectionView collectionView, nfloat rowHeight) 
 			: base (collectionView)
 		{
 			_viewModel = viewModel;
@@ -91,7 +85,7 @@ namespace test_carousels.iOS
 
 		public override nint GetItemsCount(UICollectionView collectionView, nint section)
 		{
-			return _viewModel != null ? _viewModel.Movies.Count : 0;
+			return _viewModel != null ? _viewModel.Movies.Movies.Count : 0;
 		}
 
 		public override Boolean ShouldHighlightItem(UICollectionView collectionView, NSIndexPath indexPath)
@@ -110,31 +104,16 @@ namespace test_carousels.iOS
 
 				if (movie == null)
 				{
-					movie = _viewModel.Movies[indexPath.Row];
+					movie = _viewModel.Movies.Movies[indexPath.Row];
 				}
 
-					//cell.DataContext = movie;
+				//cell.DataContext = movie;
 
 				cell.SetupCell (movie);	
-				//}
 			}
-
-			cell.Frame = new CGRect(cell.Frame.X, cell.Frame.Y, 300f, 200f);
 				
 			return cell;
 		}
-
-		public override void WillDisplayCell (UICollectionView collectionView, UICollectionViewCell cell, NSIndexPath indexPath)
-		{
-			var cellz = cell as MovieViewCell;
-			//cellz.ClearAllBindings ();
-			//cellz.BindUrl ();
-		}
-
-		//public override nfloat GetHeightForRow (UICollectionView collectionView, NSIndexPath indexPath)
-		//{
-		//	return _rowHeight;
-		//}
 
 		public override void DecelerationEnded (UIScrollView scrollView)
 		{

@@ -113,6 +113,13 @@
     <Reference Include="Cirrious.FluentLayouts.Touch">
       <HintPath>..\packages\Cirrious.FluentLayout.2.5.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\test_carousels.Core\test_carousels.Core.csproj">
@@ -138,6 +145,8 @@
     <Compile Include="Views\MovieCategorysTableViewController.cs" />
     <Compile Include="Views\MoviesCollectionView.cs" />
     <Compile Include="Views\MovieViewCell.cs" />
+    <Compile Include="Extensions\UIColorExtension.cs" />
+    <Compile Include="Extensions\UIImageExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
@@ -169,6 +178,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\play.png" />
+    <BundleResource Include="Resources\info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

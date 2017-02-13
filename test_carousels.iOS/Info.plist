@@ -40,5 +40,22 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleName</key>
 	<string>test_carousels</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>colourlovers.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+            	<true/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

@@ -27,5 +27,25 @@ namespace test_carousels.iOS
 				return UIApplication.SharedApplication.StatusBarFrame.Width - HorizontalMargin;
 			}
 		}
+
+		public static nfloat CellWidth = 300f;
+
+		public static nfloat CellWidthLessLeftAndRightMargins
+		{
+			get
+			{
+				return CellWidth - HorizontalMargin - HorizontalMargin;
+			}
+		}
+
+		public static nfloat CellHeight = 200f;
+
+		public static nfloat CellHeightLessTopAndBottomMargins
+		{
+			get
+			{
+				return CellHeight - VerticalMargin - VerticalMargin;
+			}
+		}
 	}
 }

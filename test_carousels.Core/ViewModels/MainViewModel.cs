@@ -8,6 +8,8 @@ namespace test_carousels.Core.ViewModels
 	public class MainViewModel
 		: MvxViewModel
 	{
-		
+		public MainViewModel()
+		{
+		}
 	}
 }

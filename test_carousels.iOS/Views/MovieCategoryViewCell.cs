@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Cirrious.FluentLayouts.Touch;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.iOS.Views;
@@ -60,7 +61,16 @@ namespace test_carousels.iOS
 
 			if (_moviesCollectionView == null)
 			{
-				_moviesCollectionView = new MoviesCollectionView(new CoreGraphics.CGRect(0f, 0f, Constants.WidthLessLeftMargins, 200f), new UICollectionViewFlowLayout(), ViewModel.Movies);
+				var uiCollectionViewFlowLayout = new UICollectionViewFlowLayout()
+				{
+					//SectionInset = new UIEdgeInsets(20, 5, 5, 5),
+					//MinimumInteritemSpacing = 5,
+					//MinimumLineSpacing = 5,
+					ItemSize = new SizeF((float)Constants.CellWidth, (float)Constants.CellHeight),
+					ScrollDirection = UICollectionViewScrollDirection.Horizontal,
+				};
+
+				_moviesCollectionView = new MoviesCollectionView(new CoreGraphics.CGRect(0f, 0f, Constants.WidthLessLeftMargins, 200f), uiCollectionViewFlowLayout, ViewModel);
 				ContentView.Add(_moviesCollectionView);
 			}
 		}
@@ -81,20 +91,8 @@ namespace test_carousels.iOS
 				_moviesCollectionView.AtLeftOf (ContentView, Constants.HorizontalMargin),
 				_moviesCollectionView.Width().EqualTo (Constants.WidthLessLeftMargins),
 				_moviesCollectionView.Height().EqualTo (200f),
-
-				//_clicksPointsSeparatorView.AtBottomOf (ContentView, 0f),
-				//_clicksPointsSeparatorView.WithSameWidth (ContentView),
-				//_clicksPointsSeparatorView.Height().EqualTo (1f),
 			});
 		}
-
-		//private void AddBinding()
-		//{
-		//	var set = this.CreateBindingSet<MovieCategoryViewCell, MovieCategory> ();
-		//	set.Bind (_nameLabel).To (vm => vm.Name);
-		//	//set.Bind (TextField).To (vm => vm.Hello);
-		//	set.Apply ();
-		//}
 
 		public void SetupCell ()
 		{

@@ -15,11 +15,11 @@ namespace test_carousels.Core.ViewModels
 
 		#region Constructors
 
-		public MovieCategorysViewModel()
+		public MovieCategorysViewModel(IMovieManager movieManager)
 		{
-			_movieCategorys.Add(new MovieCategory() { Name = "Channels", Movies = new MoviesViewModel() });
-			_movieCategorys.Add(new MovieCategory() { Name = "Continue Watching", Movies = new MoviesViewModel() });
-			_movieCategorys.Add(new MovieCategory() { Name = "Highlights", Movies = new MoviesViewModel() });
+			_movieCategorys.Add(new MovieCategory() { Name = "Channels", Movies = new MoviesViewModel(movieManager) });
+			_movieCategorys.Add(new MovieCategory() { Name = "Continue Watching", Movies = new MoviesViewModel(movieManager) });
+			_movieCategorys.Add(new MovieCategory() { Name = "Highlights", Movies = new MoviesViewModel(movieManager) });
 		}
 
 		#endregion Constructors

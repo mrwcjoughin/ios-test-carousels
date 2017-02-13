@@ -2,6 +2,8 @@
 using Foundation;
 using MvvmCross.Binding.iOS.Views;
 using MvvmCross.iOS.Views;
+using MvvmCross.Platform;
+using test_carousels.Core;
 using test_carousels.Core.Models;
 using test_carousels.Core.ViewModels;
 using UIKit;
@@ -24,7 +26,7 @@ namespace test_carousels.iOS
 
 		public MovieCategorysTableViewController ()
 		{
-			this.ViewModel = new MovieCategorysViewModel();
+			this.ViewModel = Mvx.IocConstruct<MovieCategorysViewModel>();
 
 			this.TableView = new UITableView();
 			this.TableView.TranslatesAutoresizingMaskIntoConstraints = false;

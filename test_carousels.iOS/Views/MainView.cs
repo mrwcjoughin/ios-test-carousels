@@ -4,7 +4,9 @@ using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.iOS.Views;
 using MvvmCross.iOS.Views;
+using test_carousels.Core;
 using test_carousels.Core.Models;
+using test_carousels.Core.Services;
 using test_carousels.Core.ViewModels;
 using UIKit;
 
@@ -20,9 +22,10 @@ namespace test_carousels.iOS.Views
 
 		#region Constructors
 
-		//public MainView (IntPtr handle) : base (handle)
-		//{
-		//}
+		public MainView ()
+		{
+			
+		}
 
 		#endregion Constructors
 

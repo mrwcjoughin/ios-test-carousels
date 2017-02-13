@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using test_carousels.Core.Models;
 
@@ -15,11 +16,26 @@ namespace test_carousels.Core
 
 		#region Constructors
 
-		public MoviesViewModel()
+		public MoviesViewModel(IMovieManager movieManager)
 		{
-			_movies.Add(new Movie() { Name = "Back to the Future", ImageUrl = "https://images-na.ssl-images-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_CR0,0,643,1000_AL_.jpg" });
-			_movies.Add(new Movie() { Name = "Back to the Future II", ImageUrl = "https://images-na.ssl-images-amazon.com/images/M/MV5BZTMxMGM5MjItNDJhNy00MWI2LWJlZWMtOWFhMjI5ZTQwMWM3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg" });
-			_movies.Add(new Movie() { Name = "Back to the Future III", ImageUrl = "https://images-na.ssl-images-amazon.com/images/M/MV5BYjhlMGYxNmMtOWFmMi00Y2M2LWE5NWYtZTdlMDRlMGEzMDA3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_CR0,0,676,1000_AL_.jpg" });
+			Task.Run (async () =>
+			{
+				var max = 10;
+
+				for (int i = 0; i < max; i++)
+				{
+					try
+					{
+						var result = await movieManager.GetMoviesAsync();
+
+						_movies.Add(new Movie() { Name = result.Name, ImageUrl = result.ImageUrl });
+					}
+					catch(Exception ex)
+					{
+						//Do nothing intentially
+					}
+				}
+			});
 		}
 
 		#endregion Constructors
